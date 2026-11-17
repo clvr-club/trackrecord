@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>CLVR Track Record</title>
+<meta name="description" content="Every free and VIP pick of CLVR with result and closing line value (CLV) against Pinnacle.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: one column – brand bar, headline numbers, filter, full ledger table (scrolls sideways on phones). Deliberately single dark theme, matching the Instagram brand. */
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+:root{
+  --bg:#0E1116; --card:#161B23; --line:#2A313D; --row:#1F2530;
+  --fg:#F2F4F7; --soft:#C9D0DB; --muted:#9AA4B5; --accent:#F5B83D; --brand:#2FE38C;
+  --win:#8BDB9C; --loss:#F49A8E; --push:#C9D0DB;
+  --display:'Archivo',system-ui,sans-serif; --mono:'IBM Plex Mono',ui-monospace,monospace;
+  color-scheme:dark;
+}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--display);font-size:15px;line-height:1.45}
+[hidden]{display:none!important}
+.wrap{max-width:1080px;margin:0 auto;padding-block:32px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.brand{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:.08em;font-size:20px}
+.logo img{width:34px;height:34px;border-radius:50%;display:block;flex:none}
+.logo .clv{color:var(--brand)}
+.handle{font-family:var(--mono);font-size:14px;color:var(--muted)}
+h1{margin:0;font-size:clamp(34px,6vw,56px);font-weight:900;line-height:1.04;text-wrap:balance}
+.lede{margin:0;color:var(--soft);font-size:17px;max-width:62ch}
+.meta{font-family:var(--mono);font-size:13px;color:var(--muted)}
+.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.stat .k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.stat .v{font-family:var(--mono);font-size:30px;font-weight:600;font-variant-numeric:tabular-nums}
+.stat.hero .v{color:var(--accent)}
+.stat .x{font-family:var(--mono);font-size:12px;color:var(--muted)}
+.why{margin:0;color:var(--soft);font-size:14px;max-width:75ch}
+.stat .v.rec{font-size:20px;line-height:1.3;padding-top:6px;white-space:pre-line}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filters button{font:inherit;font-family:var(--mono);font-size:13px;letter-spacing:.04em;padding:9px 14px;min-height:40px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--soft);cursor:pointer}
+.filters button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--bg);font-weight:600}
+.filters button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tablebox{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--card)}
+table{width:100%;border-collapse:collapse;min-width:920px;font-variant-numeric:tabular-nums}
+th{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;font-weight:500;padding:12px 14px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:12px 14px;border-bottom:1px solid var(--row);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-family:var(--mono);white-space:nowrap}
+td.pick{font-weight:600}
+td .sub{display:block;font-weight:400;color:var(--muted);font-size:13px}
+.tag{font-family:var(--mono);font-size:11px;letter-spacing:.06em;padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--soft);white-space:nowrap}
+.tag.free{border-color:var(--accent);color:var(--accent)}
+.res{font-family:var(--mono);font-weight:600;white-space:nowrap}
+.res.won{color:var(--win)} .res.lost{color:var(--loss)} .res.push,.res.void{color:var(--push)} .res.open{color:var(--accent)}
+tr.open td{background:rgba(245,184,61,.06)}
+.pos{color:var(--win)} .neg{color:var(--loss)}
+.empty{padding:36px 18px;text-align:center;color:var(--soft)}
+.empty strong{display:block;color:var(--fg);font-size:18px;margin-bottom:6px}
+.notes{display:flex;flex-direction:column;gap:6px;color:var(--muted);font-size:13px;max-width:75ch}
+.notes p{margin:0}
+footer{border-top:1px solid var(--line);padding-top:18px;color:var(--muted);font-size:13px}
+@media (max-width:640px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat .v{font-size:24px}.stat .v.rec{font-size:16px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="brand">
+    <div class="logo">
+      <img src="data:image/png;base64,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" width="34" height="34" alt="">
+      <span><span class="clv">CLV</span>R</span>
+    </div>
+    <span class="handle">@clvr.club</span>
+  </div>
+
+  <header style="display:flex;flex-direction:column;gap:12px">
+    <h1>Every bet. Every result. Every CLV.</h1>
+    <p class="lede">Our record since <span id="since">12 Nov 2026</span>, when we started with our current selection rules – every free pick and every VIP pick since then: until 16 Nov posted in our Telegram channels, since then recorded the moment we issue them. Free picks show up the moment they are posted, VIP picks once the game is over. From that day on, nothing is deleted. Every bet is measured against Pinnacle's closing price.</p>
+    <span class="meta" id="updated">Updated –</span>
+  </header>
+
+  <section class="stats" aria-label="Summary">
+    <div class="stat hero"><span class="k">Avg CLV</span><span class="v" id="s-clv">–</span></div>
+    <div class="stat"><span class="k">Beat the close</span><span class="v" id="s-beat">–</span><span class="x" id="s-beat-n"></span></div>
+    <div class="stat"><span class="k">Bets</span><span class="v" id="s-n">–</span></div>
+    <div class="stat"><span class="k">Won – Lost – Push/Void</span><span class="v" id="s-rec">–</span></div>
+    <div class="stat"><span class="k">Profit</span><span class="v" id="s-pl">–</span></div>
+    <div class="stat"><span class="k">ROI</span><span class="v" id="s-roi">–</span></div>
+  </section>
+
+  <p class="why">Why CLV: Pinnacle's closing price is the sharpest estimate of a bet's true chance. Beating it again and again is the clearest sign of a long-term edge. Profit over a few hundred bets still swings with luck, so we show both.</p>
+
+  <div class="filters" id="phases" role="group" aria-label="Period" hidden>
+    <button type="button" id="p-live" data-p="live" aria-pressed="true">Since restart</button>
+    <button type="button" id="p-test" data-p="test" aria-pressed="false">Test phase</button>
+  </div>
+  <p class="why" id="phase-note" hidden></p>
+
+  <div class="filters" id="types" role="group" aria-label="Filter">
+    <button type="button" id="f-all" data-f="all" aria-pressed="true">All bets</button>
+    <button type="button" id="f-free" data-f="free" aria-pressed="false">Free picks</button>
+    <button type="button" id="f-vip" data-f="vip" aria-pressed="false">VIP picks</button>
+  </div>
+
+  <div class="tablebox">
+    <table>
+      <thead><tr><th>Date</th><th>Type</th><th>Match</th><th>Pick</th><th>Odds</th><th>Stake</th><th>Closing fair</th><th>CLV</th><th>Result</th><th>Profit</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div class="empty" id="empty"><strong>The new record has just started.</strong>The first settled bets appear here the morning after the game.</div>
+  </div>
+
+  <div class="notes">
+    <p>CLV = our odds ÷ Pinnacle's no-vig closing price − 1. Every settled bet carries a CLV, shown as "pending" while the closing price is still being checked. "≈" marks the case where Pinnacle offered no market on that exact line, so the close was derived from its nearest line or from the closing consensus of major US books. Voided bets have no CLV.</p>
+    <p>Open free picks are shown with their result "OPEN" and do not count in the numbers above until they are settled. Odds are the price at the moment the pick was issued (until 16 Nov: as posted in our Telegram channel). Stakes are in units as issued (1u = 1 % of bankroll). A win pays stake × (odds − 1), a loss costs the stake, pushes and voids pay 0. On quarter lines a bet can be half won or half lost (½): half of that profit or loss on the full stake, counted in the third number. ROI = profit ÷ total staked.</p>
+  </div>
+
+  <footer>18+ · No guaranteed profits. Gambling can be addictive. Help: begambleaware.org · check-dein-spiel.de</footer>
+</div>
+
+<script id="btc-data" type="application/json">{"updated": "18 Nov 2026, 00:12 CET", "bets": [{"date": "2026-11-12", "type": "vip", "sport": "UEFA - Nations League A", "match": "Tschechien vs Spanien", "pick": "Spanien – Under 3 Team Goals", "odds": 1.5, "stake": 1.25, "stat": "Final score: 0–2", "close_fair": 1.454, "clv": 3.1, "clv_proxy": false, "result": "won", "profit": 0.62}, {"date": "2026-11-12", "type": "vip", "sport": "Internationale Freundschaftsspiele", "match": "Usbekistan vs Russland", "pick": "Usbekistan – Under 1 Team Goals", "odds": 1.65, "stake": 0.75, "stat": "Final score: 2–3", "close_fair": 1.58, "clv": 4.5, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-13", "type": "free", "sport": "UEFA - Nations League C", "match": "Moldawien vs Kasachstan", "pick": "Moldawien – Over 1 Team Goals", "odds": 1.83, "stake": 1.0, "stat": "Final score: 2–1", "close_fair": 1.873, "clv": -2.3, "clv_proxy": false, "result": "won", "profit": 0.83}, {"date": "2026-11-14", "type": "free", "sport": "NBA", "match": "San Antonio Spurs vs Golden State Warriors", "pick": "Dylan Harper – Under 4.5 Assists", "odds": 2.1, "stake": 1.0, "stat": "Final: 4 assists", "close_fair": 1.789, "clv": 17.4, "clv_proxy": false, "result": "won", "profit": 1.1}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Chicago Bulls vs Atlanta Hawks", "pick": "Nickeil Alexander-Walker – Under 3.5 Threes", "odds": 2.09, "stake": 0.25, "stat": "Final: 1 three made", "close_fair": 2.108, "clv": -0.9, "clv_proxy": false, "result": "won", "profit": 0.27}, {"date": "2026-11-14", "type": "vip", "sport": "Internationale Freundschaftsspiele", "match": "Japan vs Brasilien", "pick": "Japan – Over 1 Team Goals", "odds": 1.71, "stake": 0.75, "stat": "Final score: 3–2", "close_fair": 1.594, "clv": 7.3, "clv_proxy": false, "result": "won", "profit": 0.53}, {"date": "2026-11-14", "type": "vip", "sport": "England - Southern Premier League Central", "match": "Leighton Town vs Stratford Town FC", "pick": "Stratford Town FC – Over 1.5 Team Goals", "odds": 2.12, "stake": 0.75, "stat": "Final score: 2–2", "close_fair": 1.951, "clv": 8.7, "clv_proxy": false, "result": "won", "profit": 0.84}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Los Angeles Clippers vs Oklahoma City Thunder", "pick": "Kenrich Williams – Under 4.5 Rebounds", "odds": 1.98, "stake": 0.75, "stat": "Final: 8 rebounds", "close_fair": 1.866, "clv": 6.1, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Miami Heat vs Cleveland Cavaliers", "pick": "Bam Adebayo – Under 9.5 Rebounds", "odds": 1.99, "stake": 1.25, "stat": "Final: 14 rebounds", "close_fair": 1.863, "clv": 6.8, "clv_proxy": false, "result": "lost", "profit": -1.25}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Miami Heat vs Cleveland Cavaliers", "pick": "Giannis Antetokounmpo – Under 12.5 Rebounds", "odds": 1.96, "stake": 0.75, "stat": "Final: 9 rebounds", "close_fair": 1.783, "clv": 9.9, "clv_proxy": false, "result": "won", "profit": 0.72}, {"date": "2026-11-14", "type": "vip", "sport": "Spain – Segunda División", "match": "RCD Mallorca vs FC Córdoba", "pick": "FC Córdoba – Over 1 Team Goals", "odds": 1.83, "stake": 0.75, "stat": "Final score: 3–3", "close_fair": 2.022, "clv": -9.5, "clv_proxy": false, "result": "won", "profit": 0.62}, {"date": "2026-11-14", "type": "vip", "sport": "Netherlands – Eerste Divisie", "match": "Roda JC Kerkrade vs FC Volendam", "pick": "FC Volendam – Over 1 Team Goals", "odds": 1.69, "stake": 0.75, "stat": "Final score: 3–1", "close_fair": 1.652, "clv": 2.3, "clv_proxy": false, "result": "push", "profit": 0}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Sacramento Kings vs Portland Trail Blazers", "pick": "Deni Avdija – Under 6.5 Rebounds", "odds": 2.04, "stake": 1.0, "stat": "Final: 6 rebounds", "close_fair": 1.894, "clv": 7.7, "clv_proxy": false, "result": "won", "profit": 1.04}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Sacramento Kings vs Portland Trail Blazers", "pick": "Domantas Sabonis – Under 12.5 Points", "odds": 1.95, "stake": 0.75, "stat": "Final: 21 points", "close_fair": 2.009, "clv": -2.9, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-14", "type": "vip", "sport": "NBA", "match": "Sacramento Kings vs Portland Trail Blazers", "pick": "Donovan Clingan – Under 11.5 Rebounds", "odds": 1.95, "stake": 0.5, "stat": "Final: 11 rebounds", "close_fair": 1.823, "clv": 7.0, "clv_proxy": false, "result": "won", "profit": 0.47}, {"date": "2026-11-14", "type": "vip", "sport": "England - League 2", "match": "Swindon Town vs Grimsby Town", "pick": "Swindon Town – Over 1 Team Goals", "odds": 1.69, "stake": 0.25, "stat": "Final score: 1–4", "close_fair": 1.672, "clv": 1.1, "clv_proxy": false, "result": "push", "profit": 0}, {"date": "2026-11-15", "type": "vip", "sport": "NFL", "match": "Arizona Cardinals vs Los Angeles Rams", "pick": "Trey McBride – Under 6.5 Receptions", "odds": 1.96, "stake": 0.75, "stat": "Final: 5 receptions", "close_fair": 1.853, "clv": 5.8, "clv_proxy": false, "result": "won", "profit": 0.72}, {"date": "2026-11-15", "type": "vip", "sport": "NFL", "match": "Cleveland Browns vs Houston Texans", "pick": "C.J. Stroud – Under 21.5 Pass Completions", "odds": 1.9, "stake": 1.25, "stat": "Final: 20 pass completions", "close_fair": 1.723, "clv": 10.2, "clv_proxy": true, "result": "won", "profit": 1.12}, {"date": "2026-11-15", "type": "vip", "sport": "NFL", "match": "Dallas Cowboys vs San Francisco 49ers", "pick": "Dak Prescott – Under 24.5 Pass Completions", "odds": 1.98, "stake": 0.75, "stat": "Final: 30 pass completions", "close_fair": 1.896, "clv": 4.4, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-15", "type": "vip", "sport": "Japan - League Cup", "match": "Kashiwa Reysol vs Kawasaki Frontale", "pick": "Kawasaki Frontale – Over 1 Team Goals", "odds": 1.7, "stake": 1.0, "stat": "Final score: 5–4", "close_fair": 1.488, "clv": 14.3, "clv_proxy": false, "result": "won", "profit": 0.7}, {"date": "2026-11-15", "type": "vip", "sport": "NBA", "match": "Los Angeles Clippers vs Charlotte Hornets", "pick": "Grayson Allen – Under 3.5 Assists", "odds": 2.01, "stake": 1.5, "stat": "Final: 4 assists", "close_fair": 1.768, "clv": 13.7, "clv_proxy": false, "result": "lost", "profit": -1.5}, {"date": "2026-11-15", "type": "vip", "sport": "NBA", "match": "Miami Heat vs Detroit Pistons", "pick": "John Collins – Under 6.5 Rebounds", "odds": 1.88, "stake": 1.25, "stat": "Final: 7 rebounds", "close_fair": 1.741, "clv": 8.0, "clv_proxy": false, "result": "lost", "profit": -1.25}, {"date": "2026-11-15", "type": "vip", "sport": "NBA", "match": "Phoenix Suns vs Los Angeles Lakers", "pick": "Dillon Brooks – Under 3.5 Rebounds", "odds": 2.07, "stake": 2.0, "stat": "Final: 2 rebounds", "close_fair": 1.809, "clv": 14.4, "clv_proxy": false, "result": "won", "profit": 2.14}, {"date": "2026-11-15", "type": "vip", "sport": "NBA", "match": "Phoenix Suns vs Los Angeles Lakers", "pick": "Oso Ighodaro – Under 5.5 Rebounds", "odds": 1.96, "stake": 0.5, "stat": "Final: 2 rebounds", "close_fair": 1.78, "clv": 10.1, "clv_proxy": false, "result": "won", "profit": 0.48}, {"date": "2026-11-16", "type": "free", "sport": "UEFA - Nations League A", "match": "Deutschland vs Niederlande", "pick": "Deutschland – Under 2 Team Goals", "odds": 1.87, "stake": 1.0, "stat": "Final score: 5–0", "close_fair": 2.03, "clv": -7.9, "clv_proxy": false, "result": "lost", "profit": -1.0}, {"date": "2026-11-16", "type": "vip", "sport": "NBA", "match": "Boston Celtics vs Dallas Mavericks", "pick": "Cooper Flagg – Under 22.5 Points", "odds": 2.07, "stake": 1.25, "stat": "Final: 17 points", "close_fair": 2.123, "clv": -2.5, "clv_proxy": false, "result": "won", "profit": 1.34}, {"date": "2026-11-16", "type": "vip", "sport": "NFL", "match": "Cincinnati Bengals vs Pittsburgh Steelers", "pick": "Rico Dowdle – Under 7.5 Rush Attempts", "odds": 2.04, "stake": 0.5, "stat": "Final: 5 rush attempts", "close_fair": 1.871, "clv": 9.0, "clv_proxy": false, "result": "won", "profit": 0.52}, {"date": "2026-11-16", "type": "vip", "sport": "NBA", "match": "Sacramento Kings vs Oklahoma City Thunder", "pick": "Aday Mara – Under 6.5 Rebounds", "odds": 2.05, "stake": 1.25, "stat": "Final: 13 rebounds", "close_fair": 1.749, "clv": 17.2, "clv_proxy": false, "result": "lost", "profit": -1.25}, {"date": "2026-11-16", "type": "vip", "sport": "NBA", "match": "Sacramento Kings vs Oklahoma City Thunder", "pick": "Jared McCain – Under 2.5 Threes", "odds": 1.95, "stake": 0.75, "stat": "Final: 1 three made", "close_fair": 1.856, "clv": 5.1, "clv_proxy": false, "result": "won", "profit": 0.71}, {"date": "2026-11-16", "type": "vip", "sport": "NBA", "match": "Washington Wizards vs Houston Rockets", "pick": "Reed Sheppard – Under 2.5 Threes", "odds": 2.22, "stake": 0.5, "stat": "Final: 3 threes made", "close_fair": 2.018, "clv": 10.0, "clv_proxy": false, "result": "lost", "profit": -0.5}, {"date": "2026-11-17", "type": "vip", "sport": "NFL", "match": "Baltimore Ravens vs Los Angeles Chargers", "pick": "Quentin Johnston – Under 2.5 Receptions", "odds": 2.19, "stake": 1.25, "stat": "Final: 1 reception", "close_fair": 1.907, "clv": 14.8, "clv_proxy": false, "result": "won", "profit": 1.49}, {"date": "2026-11-17", "type": "vip", "sport": "NBA", "match": "Boston Celtics vs Orlando Magic", "pick": "Paul George – Under 4.5 Rebounds", "odds": 1.88, "stake": 0.75, "stat": "Final: 8 rebounds", "close_fair": 2.099, "clv": -10.4, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-17", "type": "vip", "sport": "NBA", "match": "New Orleans Pelicans vs Golden State Warriors", "pick": "Saddiq Bey – Under 5.5 Rebounds", "odds": 1.87, "stake": 0.75, "stat": "Final: 6 rebounds", "close_fair": 1.777, "clv": 5.2, "clv_proxy": false, "result": "lost", "profit": -0.75}, {"date": "2026-11-17", "type": "vip", "sport": "UEFA - Nations League B", "match": "Polen vs Schweden", "pick": "Schweden – Over 1 Team Goals", "odds": 1.54, "stake": 1.0, "stat": "Final score: 1–1", "close_fair": 1.661, "clv": -7.3, "clv_proxy": false, "result": "push", "profit": 0}], "restart": "12 Nov 2026"}</script>
+<script>
+(function(){
+  var data; try{ data = JSON.parse(document.getElementById('btc-data').textContent); }catch(e){ data = {updated:'',bets:[],test:[]}; }
+  function newestFirst(list){ return (list||[]).slice().sort(function(a,b){ return (b.date||'').localeCompare(a.date||''); }); }
+  // Restart 12 Nov 2026: the numbers count from the restart. The test phase before it is only in the internal copy (intern.html); the public page carries no "test" data, so the switch stays hidden.
+  var sets = {live: newestFirst(data.bets), test: newestFirst(data.test)};
+  var phase = 'live';
+  var filter = 'all';
+  var $ = function(id){ return document.getElementById(id); };
+  function f2(n){ return (Math.round(n*100)/100).toFixed(2); }
+  function pct(n){ return (n>0?'+':'')+(Math.round(n*10)/10).toFixed(1)+'%'; }
+  function u(n){ return (Math.round(n*100)/100).toString()+'u'; }
+  function fmtDate(s){ if(!s) return ''; var p=s.split('-'); var m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; return (+p[2])+' '+m[+p[1]-1]+' '+p[0]; }
+  if (data.updated) $('updated').textContent = 'Updated ' + data.updated;
+  if (data.restart){ $('since').textContent = data.restart; $('p-live').textContent = 'Since ' + data.restart; }
+  var tDates = sets.test.map(function(b){ return b.date||''; }).filter(Boolean).sort();
+  var tSpan = tDates.length ? fmtDate(tDates[0]) + ' – ' + fmtDate(tDates[tDates.length-1]) : '';
+  if (tSpan) $('p-test').textContent = 'Test phase · ' + tSpan;
+  $('phases').hidden = !sets.test.length;
+  $('phase-note').textContent = 'Test phase: our first picks before the restart (' + tSpan + '), kept in full exactly as posted. They do not count in the record since ' + (data.restart||'the restart') + '.';
+
+  function render(){
+    var list = sets[phase].filter(function(b){ return filter==='all' || b.type===filter; });
+    $('phase-note').hidden = phase!=='test';
+    var tb = $('rows'); tb.textContent='';
+    $('empty').hidden = list.length>0;
+    var w=0,l=0,p=0,pl=0,staked=0,clvs=[],beat=0,settled=0;
+    list.forEach(function(b){
+      var o=b.result; var isOpen = o==='open';
+      if(o==='won') w++; else if(o==='lost') l++; else if(!isOpen) p++;
+      var st = typeof b.stake==='number' ? b.stake : 1;
+      pl += (typeof b.profit==='number') ? b.profit : 0;
+      if (o==='won' || o==='lost' || o==='½ won' || o==='½ lost') staked += st;
+      if (typeof b.clv==='number' && o!=='void' && !isOpen){ clvs.push(b.clv); if (b.clv>0) beat++; }
+      if (!isOpen) settled++;
+      var tr=document.createElement('tr'); if (isOpen) tr.className='open';
+      function td(txt,cls){ var c=document.createElement('td'); if(cls) c.className=cls; c.textContent=txt; tr.appendChild(c); return c; }
+      td(fmtDate(b.date),'num');
+      var t=document.createElement('td'); var s=document.createElement('span'); s.className='tag'+(b.type==='free'?' free':''); s.textContent=b.type==='free'?'FREE':'VIP'; t.appendChild(s); tr.appendChild(t);
+      var m=td(b.match||''); if(b.sport){ var sp=document.createElement('span'); sp.className='sub'; sp.textContent=b.sport; m.appendChild(sp); }
+      var pk=td(b.pick||'','pick'); if(b.stat){ var stt=document.createElement('span'); stt.className='sub'; stt.textContent=b.stat; pk.appendChild(stt); }
+      td(typeof b.odds==='number'?f2(b.odds):'','num');
+      td(u(st),'num');
+      td(o==='void'||isOpen?'–':(typeof b.close_fair==='number'?f2(b.close_fair):'–'),'num');
+      var cv = isOpen ? 'pending' : o==='void' ? 'void' : (typeof b.clv==='number' ? ((b.clv_proxy?'≈':'')+pct(b.clv)) : 'pending');
+      td(cv,'num'+(typeof b.clv==='number'&&o!=='void'?(b.clv>0?' pos':(b.clv<0?' neg':'')):''));
+      td(isOpen?(b.kickoff_label?'OPEN · '+b.kickoff_label:'OPEN'):(o||'').toUpperCase(),'res '+(o||''));
+      td(typeof b.profit==='number'?((b.profit>0?'+':'')+f2(b.profit)+'u'):'','num'+(b.profit>0?' pos':(b.profit<0?' neg':'')));
+      tb.appendChild(tr);
+    });
+    var n=settled;
+    $('s-n').textContent = n;
+    $('s-rec').textContent = n ? (w+'–'+l+'–'+p) : '–';
+    $('s-pl').textContent = n ? ((pl>0?'+':'')+f2(pl)+'u') : '–';
+    $('s-roi').textContent = staked ? pct(pl/staked*100) : '–';
+    $('s-clv').textContent = clvs.length ? pct(clvs.reduce(function(a,b){return a+b;},0)/clvs.length) : '–';
+    $('s-beat').textContent = clvs.length ? Math.round(beat/clvs.length*100)+'%' : '–';
+    $('s-beat-n').textContent = clvs.length ? beat+' of '+clvs.length+' bets' : '';
+  }
+  document.querySelectorAll('#types button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      filter = btn.getAttribute('data-f');
+      document.querySelectorAll('#types button').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+      render();
+    });
+  });
+  document.querySelectorAll('#phases button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      phase = btn.getAttribute('data-p');
+      document.querySelectorAll('#phases button').forEach(function(x){ x.setAttribute('aria-pressed', x===btn?'true':'false'); });
+      render();
+    });
+  });
+  render();
+})();
+</script>
+</body></html>
